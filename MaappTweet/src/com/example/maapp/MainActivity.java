@@ -24,7 +24,7 @@ public class MainActivity extends FragmentActivity implements OnMapClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);;
 		gmap = ((SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-		//gmap.setMyLocationEnabled(true);
+		gmap.setMyLocationEnabled(true);
 		gmap.getUiSettings().setZoomControlsEnabled(false);
 		gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(getLocation(), 8));
 		gmap.setOnMapClickListener(this);
