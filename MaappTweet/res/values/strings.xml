@@ -6,5 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="tweetLoc">Tweet Location</string>
     <string name="posMarker">Marcador de Posición</string>
+    <string name="noReverseGeo">No se pudo encontra la dirección</string>
+    <string name="locMark">Dirección:</string>
 
 </resources>

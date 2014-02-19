@@ -1,11 +1,18 @@
 package com.example.maapp;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,7 +28,6 @@ public class MainActivity extends FragmentActivity implements
 		OnMapClickListener {
 
 	private GoogleMap gmap;
-	private GoogleMap map;
 	private Marker posMarker;
 	
 
@@ -29,17 +35,16 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		;
 		gmap = ((SupportMapFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
 		gmap.setMyLocationEnabled(true);
 		gmap.getUiSettings().setZoomControlsEnabled(false);
 		gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(getLocation(), 8));
 		gmap.setOnMapClickListener(this);
-		map = ((SupportMapFragment) getSupportFragmentManager()
+		gmap = ((SupportMapFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
 		
-	
+
 	}
 
 	@Override
@@ -56,8 +61,9 @@ public class MainActivity extends FragmentActivity implements
 			posMarker.remove();
 		}
 		posMarker = gmap.addMarker(new MarkerOptions().position(point)
-				.title(getResources().getString(R.string.posMarker))
 				.anchor(0.5f, 0.5f));
+		this.getMyLocationAddressByMarker();
+		posMarker.showInfoWindow();
 
 	}
 
@@ -69,5 +75,43 @@ public class MainActivity extends FragmentActivity implements
 		return new LatLng(localizacion.getLatitude(),
 				localizacion.getLongitude());
 	}
+	
+	
+	private void getMyLocationAddressByMarker() {
+        if(posMarker == null)return;
+		
+        Geocoder geocoder= new Geocoder(this, Locale.ENGLISH);
+         
+        try {
+               
+              //Place your latitude and longitude
+              List<Address> addresses = geocoder.getFromLocation(posMarker.getPosition().latitude,posMarker.getPosition().longitude, 1);
+              
+              if(addresses != null) {
+               
+                  Address fetchedAddress = addresses.get(0);
+                  StringBuilder strAddress = new StringBuilder();
+                
+                  for(int i=0; i<fetchedAddress.getMaxAddressLineIndex(); i++) {
+                        strAddress.append(fetchedAddress.getAddressLine(i)).append("\n");
+                  }
+                
+                  posMarker.setTitle(getResources().getString(R.string.locMark));
+                  posMarker.setSnippet(strAddress.toString());
+               
+              }
+               
+              else
+                  posMarker.setTitle(getResources().getString(R.string.noReverseGeo));
+          
+        } 
+        catch (IOException e) {
+                 // TODO Auto-generated catch block
+                 e.printStackTrace();
+                 Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
+        }
+    }
+	
+	
 
 }
