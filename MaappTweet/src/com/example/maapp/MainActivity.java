@@ -15,6 +15,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+//QUE PEDO CULOSH NO ME    QUERIAN PAGAR JAJAJAJAJA LOL
+
 public class MainActivity extends FragmentActivity implements
 		OnMapClickListener {
 
