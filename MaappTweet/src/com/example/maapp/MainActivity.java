@@ -36,7 +36,6 @@ public class MainActivity extends FragmentActivity implements
 		gmap.setOnMapClickListener(this);
 		map = ((SupportMapFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
-		map.setMyLocationEnabled(true);
 		
 	
 	}
