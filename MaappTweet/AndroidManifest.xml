@@ -41,9 +41,13 @@
     	android:value="@integer/google_play_services_version" />
         <!-- OSCAR KEY --><!--<meta-data android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBt7WpjKlrR-azXh42eL1QLsmFbWB6GUdY"/>-->
-            <!-- MARIN KEY --><meta-data android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCfUZzNh0nyHcAyslfcmGRFfZyyZlxF4HM"/>
+            <!-- MARIN KEY --><!--<meta-data android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCfUZzNh0nyHcAyslfcmGRFfZyyZlxF4HM"/>-->
+    	<!-- MARIN KEY PC Trabajo --><meta-data android:name="com.google.android.maps.v2.API_KEY"
+    		android:value="AIzaSyANGAyhrosOWq3ZuictkWAXm5ZKscrdK6k"/>
     </application>
+    	
+    	
     
 
 </manifest>
