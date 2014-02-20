@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ 
+    <string-array name="nav_options">
+        <item>Opshion Riska</item>
+        <item>Opshion Indepe</item>
+        <item>Opshion Acero</item>
+        <item>Opshonn Metroplex</item>
+        <item>Opshion Altamira</item>
+        <item>Opshion Del Valle</item>
+    </string-array>
+ 
+</resources>
