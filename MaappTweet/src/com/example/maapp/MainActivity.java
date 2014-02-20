@@ -112,7 +112,7 @@ public class MainActivity extends FragmentActivity implements
         if(posMarker == null)return;
 		
         Geocoder geocoder= new Geocoder(this, Locale.ENGLISH);
-         
+        
         try {
                
               //Place your latitude and longitude
