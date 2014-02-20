@@ -53,20 +53,28 @@ public class MainActivity extends FragmentActivity implements
 		gmap = ((SupportMapFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
 		
+		//Inicializamos nuestros componentes para el Navigation Drawer.
 		this.navList = (ListView) findViewById(R.id.left_drawer);
+		this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		
 		final String[] optionNames = getResources().getStringArray(R.array.nav_options);
 		ArrayAdapter<String> adapter  = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionNames);
 		navList.setAdapter(adapter);
 		
+		//Evento Clic a un item de la Lista.
 		navList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Toast.makeText(MainActivity.this, optionNames[arg2], Toast.LENGTH_SHORT).show();
+				drawerLayout.closeDrawers();
 					
 			}
 		});
+		
+		drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		
 			
 	}
 
