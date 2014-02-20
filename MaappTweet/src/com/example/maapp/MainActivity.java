@@ -40,6 +40,7 @@ public class MainActivity extends FragmentActivity implements
 	private Marker posMarker;
 	private DrawerLayout drawerLayout;
 	private ListView navList;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
