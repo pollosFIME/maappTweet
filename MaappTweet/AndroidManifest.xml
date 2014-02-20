@@ -44,7 +44,7 @@
             <!-- MARIN KEY --><!--<meta-data android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCfUZzNh0nyHcAyslfcmGRFfZyyZlxF4HM"/>-->
     	<!-- MARIN KEY PC Trabajo --><meta-data android:name="com.google.android.maps.v2.API_KEY"
-    		android:value="AIzaSyANGAyhrosOWq3ZuictkWAXm5ZKscrdK6k"/>
+    		android:value="AIzaSyD2WLxuisbpax7aZiUb11BSavexXBmzFHo"/>
     </application>
     	
     	
