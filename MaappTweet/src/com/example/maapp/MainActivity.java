@@ -57,6 +57,16 @@ public class MainActivity extends FragmentActivity implements
 		final String[] optionNames = getResources().getStringArray(R.array.nav_options);
 		ArrayAdapter<String> adapter  = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionNames);
 		navList.setAdapter(adapter);
+		
+		navList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Toast.makeText(MainActivity.this, optionNames[arg2], Toast.LENGTH_SHORT).show();
+					
+			}
+		});
 			
 	}
 
