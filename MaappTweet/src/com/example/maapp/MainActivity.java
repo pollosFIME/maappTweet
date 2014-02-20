@@ -26,6 +26,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -93,8 +94,11 @@ public class MainActivity extends FragmentActivity implements
 		}
 		posMarker = gmap.addMarker(new MarkerOptions().position(point)
 				.anchor(0.5f, 0.5f));
+		posMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 		this.getMyLocationAddressByMarker();
-		posMarker.showInfoWindow();
+		
+		
+		
 
 	}
 
@@ -129,6 +133,7 @@ public class MainActivity extends FragmentActivity implements
                 
                   posMarker.setTitle(getResources().getString(R.string.locMark));
                   posMarker.setSnippet(strAddress.toString());
+                  posMarker.showInfoWindow();
                
               }
                
