@@ -41,6 +41,7 @@
         android:src="@drawable/ic_launcher" />
     
 </RelativeLayout>
+
 <ListView
     	style="@style/AppBaseTheme"
         android:id="@+id/left_drawer"

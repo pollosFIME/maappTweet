@@ -63,6 +63,7 @@ public class MainActivity extends FragmentActivity implements
 		ArrayAdapter<String> adapter  = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionNames);
 		
 		navList.setAdapter(adapter);
+		//navList.addHeaderView(v);
 		
 		//Evento Clic a un item de la Lista.
 		navList.setOnItemClickListener(new OnItemClickListener() {
