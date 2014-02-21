@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,7 +37,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 //QUE PEDO CULOSH NO ME    QUERIAN PAGAR JAJAJAJAJA LOL
 
 public class MainActivity extends FragmentActivity implements
-		OnMapClickListener {
+		 OnMapLongClickListener, OnClickListener {
 
 	private GoogleMap gmap;
 	private Marker posMarker;
@@ -54,7 +55,7 @@ public class MainActivity extends FragmentActivity implements
 		gmap.setMyLocationEnabled(true);
 		gmap.getUiSettings().setZoomControlsEnabled(false);
 		gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(getLocation(), 8));
-		gmap.setOnMapClickListener(this);
+		gmap.setOnMapLongClickListener(this);
 		gmap = ((SupportMapFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
 		
@@ -85,13 +86,7 @@ public class MainActivity extends FragmentActivity implements
 		//Instancia del Boton
 		tweetButton = (Button) findViewById(R.id.button1);
 		
-		tweetButton.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				tweetclickEvent();
-			}
-		});
+		tweetButton.setOnClickListener(this);
 		
 			
 	}
@@ -109,7 +104,7 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void onMapClick(LatLng point) {
+	public void onMapLongClick(LatLng point) {
 		// TODO Auto-generated method stub
 		if (posMarker != null) {
 			posMarker.remove();
@@ -118,11 +113,15 @@ public class MainActivity extends FragmentActivity implements
 				.anchor(0.5f, 0.5f));
 		posMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 		this.getMyLocationAddressByMarker();
+	}
 		
-		
+	@Override	
+	public void onClick(View v) {
+		tweetclickEvent();
+	}
 		
 
-	}
+	
 
 	private LatLng getLocation() {
 		LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -165,8 +164,10 @@ public class MainActivity extends FragmentActivity implements
         } 
         catch (IOException e) {
                  // TODO Auto-generated catch block
-                 e.printStackTrace();
+                 //e.printStackTrace();
                  Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
+        }catch (Exception e){
+        	Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
         }
     }
 	
