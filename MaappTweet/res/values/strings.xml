@@ -8,5 +8,6 @@
     <string name="posMarker">Marcador de Posición</string>
     <string name="noReverseGeo">No se pudo encontra la dirección</string>
     <string name="locMark">Dirección:</string>
+    <string name="tweetingarroundtheworld">Tweeting Arround the World</string>
 
 </resources>
