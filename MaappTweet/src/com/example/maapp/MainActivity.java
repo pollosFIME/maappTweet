@@ -43,8 +43,8 @@ public class MainActivity extends FragmentActivity implements
 	private DrawerLayout drawerLayout;
 	private ListView navList;
 	private Button tweetButton;
-	
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
