@@ -61,6 +61,7 @@ public class MainActivity extends FragmentActivity implements
 		
 		final String[] optionNames = getResources().getStringArray(R.array.nav_options);
 		ArrayAdapter<String> adapter  = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionNames);
+		
 		navList.setAdapter(adapter);
 		
 		//Evento Clic a un item de la Lista.
