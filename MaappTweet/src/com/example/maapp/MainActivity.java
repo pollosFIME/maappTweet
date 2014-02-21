@@ -9,16 +9,18 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -40,6 +42,7 @@ public class MainActivity extends FragmentActivity implements
 	private Marker posMarker;
 	private DrawerLayout drawerLayout;
 	private ListView navList;
+	private Button tweetButton;
 	
 
 	@Override
@@ -79,7 +82,23 @@ public class MainActivity extends FragmentActivity implements
 		
 		drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		
+		//Instancia del Boton
+		tweetButton = (Button) findViewById(R.id.button1);
+		
+		tweetButton.setOnClickListener(new OnClickListener() {
 			
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				tweetclickEvent();
+			}
+		});
+		
+			
+	}
+	
+	public void tweetclickEvent(){
+		MediaPlayer pio = MediaPlayer.create(this, R.raw.pollito);
+		pio.start();
 	}
 
 	@Override
