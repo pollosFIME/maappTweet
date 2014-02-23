@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import android.content.Context;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,6 +46,8 @@ public class MainActivity extends FragmentActivity implements
 	private DrawerLayout drawerLayout;
 	private ListView navList;
 	private Button tweetButton;
+	private Context context;
+	private LayoutInflater inflator;
 
 	
 	@Override
@@ -65,9 +69,13 @@ public class MainActivity extends FragmentActivity implements
 		
 		final String[] optionNames = getResources().getStringArray(R.array.nav_options);
 		ArrayAdapter<String> adapter  = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionNames);
+		context = this;
+		inflator = (LayoutInflater) this.getSystemService(context.LAYOUT_INFLATER_SERVICE); 
+		View header = inflator.inflate(R.layout.listview_header, null);
 		
 		navList.setAdapter(adapter);
-		//navList.addHeaderView(v);
+		navList.addHeaderView(header);
+		
 		
 		//Evento Clic a un item de la Lista.
 		navList.setOnItemClickListener(new OnItemClickListener() {
