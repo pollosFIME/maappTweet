@@ -9,5 +9,6 @@
     <string name="noReverseGeo">No se pudo encontra la dirección</string>
     <string name="locMark">Dirección:</string>
     <string name="tweetingarroundtheworld">Tweeting Arround the World</string>
+    <string name="pdi">Points of Interest</string>
 
 </resources>

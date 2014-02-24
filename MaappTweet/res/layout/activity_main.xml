@@ -62,22 +62,21 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/background2" >
 
-       <ImageView
+    <ImageView
         android:id="@+id/imageSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="14dp"
-        android:layout_toLeftOf="@+id/textViewFooter"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ic_settings" />
 
     <TextView
         android:id="@+id/textViewFooter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="18dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/imageSettings"
         android:text="@string/action_settings"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="20sp" />
