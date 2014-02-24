@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -37,7 +38,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-//QUE PEDO CULOSH NO ME    QUERIAN PAGAR JAJAJAJAJA LOL
+
 
 public class MainActivity extends FragmentActivity implements
 		 OnMapLongClickListener, OnClickListener {
@@ -67,6 +68,7 @@ public class MainActivity extends FragmentActivity implements
 				.findFragmentById(R.id.map)).getMap();
 		
 		//Inicializamos nuestros componentes para el Navigation Drawer.
+		
 		this.mDrawerContent = (RelativeLayout) findViewById(R.id.relative_layout);
 		this.navList = (ListView) findViewById(R.id.left_drawer);
 		this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -79,28 +81,45 @@ public class MainActivity extends FragmentActivity implements
 		View header = inflator.inflate(R.layout.listview_header, null);
 		navList.setAdapter(adapter);
 		mDrawerContent.addView(header);
-		
+		header.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(context, "Header Click....!", Toast.LENGTH_SHORT).show();
+				drawerLayout.closeDrawers();
+			}
+		});
 		
 		//Evento Clic a un item de la Lista.
+		
 		navList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Toast.makeText(MainActivity.this, optionNames[arg2], Toast.LENGTH_SHORT).show();
-				drawerLayout.closeDrawers();
-					
+				//Minirutina para obtener ubiacacion de la Lista.
+				/*posMarker.setPosition(new LatLng(obj[arg2].getLat(), obj[arg2].getLng());
+				posMarker.setSnippet(obj[arg2].getSnpt());	
+				gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(obj[arg2].getLat(), obj[arg2].getLng(), 8));
+				posMarker.showInfoWindow();*/
+				drawerLayout.closeDrawers();	
 			}
 		});
 		
 		//EventoClick Relative LayOut Footer
+		
 		this.footerLay.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				
 				// TODO Auto-generated method stub
 				Toast.makeText(context, "Click Settings...", Toast.LENGTH_SHORT).show();
 				drawerLayout.closeDrawers();
+				Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+				startActivity(i);
 				
 			}
 		});
@@ -108,6 +127,7 @@ public class MainActivity extends FragmentActivity implements
 		drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		
 		//Instancia del Boton
+		
 		tweetButton = (Button) findViewById(R.id.button1);
 		
 		tweetButton.setOnClickListener(this);
@@ -125,6 +145,7 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
+		
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
@@ -132,13 +153,13 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public void onMapLongClick(LatLng point) {
 		// TODO Auto-generated method stub
-		if (posMarker != null) {
-			posMarker.remove();
-		}
-		posMarker = gmap.addMarker(new MarkerOptions().position(point)
-				.anchor(0.5f, 0.5f));
-		posMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-		this.getMyLocationAddressByMarker();
+			if (posMarker != null) {
+				posMarker.remove();
+			}
+			posMarker = gmap.addMarker(new MarkerOptions().position(point)
+					.anchor(0.5f, 0.5f));
+			posMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+			this.getMyLocationAddressByMarker();
 	}
 		
 	@Override	
@@ -177,23 +198,37 @@ public class MainActivity extends FragmentActivity implements
                   for(int i=0; i<fetchedAddress.getMaxAddressLineIndex(); i++) {
                         strAddress.append(fetchedAddress.getAddressLine(i)).append("\n");
                   }
-                
-                  posMarker.setTitle(getResources().getString(R.string.locMark));
-                  posMarker.setSnippet(strAddress.toString());
-                  posMarker.showInfoWindow();
+                  if(strAddress.toString() != ""){
+                	  posMarker.setTitle(getResources().getString(R.string.locMark));                  	
+                	  posMarker.setSnippet(strAddress.toString());
+                	  posMarker.showInfoWindow();
+                  }else{
+                	  Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
+                      MediaPlayer trap = MediaPlayer.create(this, R.raw.ackbar);
+          			trap.start(); 
+                  }
                
               }
                
-              else
+              else{
                   posMarker.setTitle(getResources().getString(R.string.noReverseGeo));
+              Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
+              MediaPlayer trap = MediaPlayer.create(this, R.raw.ackbar);
+  			trap.start();
+  			posMarker.showInfoWindow();
+              }
           
         } 
         catch (IOException e) {
                  // TODO Auto-generated catch block
                  //e.printStackTrace();
                  Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
+                 MediaPlayer trap = MediaPlayer.create(this, R.raw.ackbar);
+     			trap.start();
         }catch (Exception e){
         	Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
+        	MediaPlayer trap = MediaPlayer.create(this, R.raw.ackbar);
+			trap.start();
         }
     }
 	
