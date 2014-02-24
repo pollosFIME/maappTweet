@@ -24,6 +24,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -48,6 +49,8 @@ public class MainActivity extends FragmentActivity implements
 	private Button tweetButton;
 	private Context context;
 	private LayoutInflater inflator;
+	private RelativeLayout mDrawerContent;
+	private RelativeLayout footerLay;
 
 	
 	@Override
@@ -64,17 +67,18 @@ public class MainActivity extends FragmentActivity implements
 				.findFragmentById(R.id.map)).getMap();
 		
 		//Inicializamos nuestros componentes para el Navigation Drawer.
+		this.mDrawerContent = (RelativeLayout) findViewById(R.id.relative_layout);
 		this.navList = (ListView) findViewById(R.id.left_drawer);
 		this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		this.footerLay = (RelativeLayout) findViewById(R.id.relayfooter);
 		
 		final String[] optionNames = getResources().getStringArray(R.array.nav_options);
 		ArrayAdapter<String> adapter  = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionNames);
 		context = this;
 		inflator = (LayoutInflater) this.getSystemService(context.LAYOUT_INFLATER_SERVICE); 
 		View header = inflator.inflate(R.layout.listview_header, null);
-		
 		navList.setAdapter(adapter);
-		navList.addHeaderView(header);
+		mDrawerContent.addView(header);
 		
 		
 		//Evento Clic a un item de la Lista.
@@ -89,6 +93,18 @@ public class MainActivity extends FragmentActivity implements
 			}
 		});
 		
+		//EventoClick Relative LayOut Footer
+		this.footerLay.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(context, "Click Settings...", Toast.LENGTH_SHORT).show();
+				drawerLayout.closeDrawers();
+				
+			}
+		});
+		
 		drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		
 		//Instancia del Boton
@@ -100,8 +116,10 @@ public class MainActivity extends FragmentActivity implements
 	}
 	
 	public void tweetclickEvent(){
-		MediaPlayer pio = MediaPlayer.create(this, R.raw.pollito);
-		pio.start();
+		if(!this.drawerLayout.isDrawerOpen(this.mDrawerContent)){
+			MediaPlayer pio = MediaPlayer.create(this, R.raw.pollito);
+			pio.start();
+		}
 	}
 
 	@Override

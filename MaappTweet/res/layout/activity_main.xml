@@ -32,16 +32,58 @@
     
 </RelativeLayout>
 
-<ListView
-    	style="@style/AppBaseTheme"
-        android:id="@+id/left_drawer"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@drawable/background_navlist"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/black"
-        android:dividerHeight="1dp" />
+        
+<RelativeLayout
+    android:id="@+id/relative_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start" >
+
+
+	<ListView
+	    android:id="@+id/left_drawer"
+	    style="@style/AppBaseTheme"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_above="@+id/relayfooter"
+	    android:layout_alignEnd="@+id/relayfooter"
+	    android:layout_below="@+id/relayheader"
+	    android:layout_gravity="start"
+	    android:background="@drawable/background_navlist"
+	    android:choiceMode="singleChoice"
+	    android:divider="@android:color/black"
+	    android:dividerHeight="1dp"
+	    android:scrollbars="vertical" />
+
+    <RelativeLayout
+        android:id="@+id/relayfooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/background2" >
+
+       <ImageView
+        android:id="@+id/imageSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="14dp"
+        android:layout_toLeftOf="@+id/textViewFooter"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/textViewFooter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="18dp"
+        android:text="@string/action_settings"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp" />
+    </RelativeLayout>
+</RelativeLayout>
+        
 
 </android.support.v4.widget.DrawerLayout>
     
