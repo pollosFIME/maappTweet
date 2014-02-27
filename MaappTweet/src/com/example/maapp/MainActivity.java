@@ -92,9 +92,7 @@ public class MainActivity extends FragmentActivity implements
 		});
 		
 		//Evento Clic a un item de la Lista.
-		
 		navList.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
@@ -125,11 +123,8 @@ public class MainActivity extends FragmentActivity implements
 		});
 		
 		drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-		
 		//Instancia del Boton
-		
 		tweetButton = (Button) findViewById(R.id.button1);
-		
 		tweetButton.setOnClickListener(this);
 		
 			
@@ -205,17 +200,17 @@ public class MainActivity extends FragmentActivity implements
                   }else{
                 	  Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
                       MediaPlayer trap = MediaPlayer.create(this, R.raw.ackbar);
-          			trap.start(); 
+          			  trap.start(); 
                   }
                
               }
                
               else{
                   posMarker.setTitle(getResources().getString(R.string.noReverseGeo));
-              Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
-              MediaPlayer trap = MediaPlayer.create(this, R.raw.ackbar);
-  			trap.start();
-  			posMarker.showInfoWindow();
+                  Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
+                  MediaPlayer trap = MediaPlayer.create(this, R.raw.ackbar);
+                  trap.start();
+                  posMarker.showInfoWindow();
               }
           
         } 

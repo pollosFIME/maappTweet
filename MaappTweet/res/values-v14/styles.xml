@@ -7,7 +7,19 @@
     -->
     <style name="AppBaseTheme" parent="android:Theme.Holo.NoActionBar.Fullscreen">
         <!-- API 14 theme customizations can go here. -->
-        </style>
-        
+    </style>
+    
+    <!--  -->
+    <style name="SettingsBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+       	<item name="android:actionBarStyle">@style/MyActionBarSettings</item>
+    </style>
+    
+    <!-- ActionBar style -->
+    <style name="MyActionBarSettings"
+           parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/background2</item>
+        <item name="android:iconifiedByDefault">@drawable/ic_settings</item>
+    </style>    
+   
 
 </resources>
