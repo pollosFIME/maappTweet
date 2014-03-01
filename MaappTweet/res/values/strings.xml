@@ -10,5 +10,7 @@
     <string name="locMark">Dirección:</string>
     <string name="tweetingarroundtheworld">Tweeting Arround the World</string>
     <string name="pdi">Points of Interest</string>
+    <string name="Iniciar_Sesion">Iniciar Sesion</string>
+    
 
 </resources>

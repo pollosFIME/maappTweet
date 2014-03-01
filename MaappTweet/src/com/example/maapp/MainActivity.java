@@ -4,8 +4,16 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import twitter4j.TweetEntity;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -13,9 +21,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -24,6 +34,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -52,7 +63,7 @@ public class MainActivity extends FragmentActivity implements
 	private LayoutInflater inflator;
 	private RelativeLayout mDrawerContent;
 	private RelativeLayout footerLay;
-
+		
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +125,7 @@ public class MainActivity extends FragmentActivity implements
 			public void onClick(View v) {
 				
 				// TODO Auto-generated method stub
-				Toast.makeText(context, "Click Settings...", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(context, "Click Settings...", Toast.LENGTH_SHORT).show();
 				drawerLayout.closeDrawers();
 				Intent i = new Intent(MainActivity.this, SettingsActivity.class);
 				startActivity(i);
@@ -126,14 +137,31 @@ public class MainActivity extends FragmentActivity implements
 		//Instancia del Boton
 		tweetButton = (Button) findViewById(R.id.button1);
 		tweetButton.setOnClickListener(this);
-		
 			
-	}
+	}//Fin del OnCreate
 	
 	public void tweetclickEvent(){
+		try{
 		if(!this.drawerLayout.isDrawerOpen(this.mDrawerContent)){
-			MediaPlayer pio = MediaPlayer.create(this, R.raw.pollito);
-			pio.start();
+			//para enviar tweet
+			SharedPreferences preferencias = this.getSharedPreferences("TwitterPrefs", MODE_PRIVATE); 
+			if(preferencias != null){
+				String maapLink = "http://maps.google.com/maps/?q="+posMarker.getPosition().latitude+","+posMarker.getPosition().longitude+"&z=17";
+				Log.i("MaappTweet", maapLink);
+				String tweet = "Te comparto mi punto de interes Actual: "+maapLink+" #MaapTweet";
+				
+				new MandaTuitTask(tweet, preferencias).execute();
+				MediaPlayer pio = MediaPlayer.create(this, R.raw.pollito);
+				pio.start();
+				Toast.makeText(this.context,"Tweet Enviado :D",
+	                    Toast.LENGTH_SHORT).show();
+			}else{
+				Toast.makeText(this.context,"Acceso a twitter NO conseguido! ve a Settings e Inicia Sesion",
+	                    Toast.LENGTH_SHORT).show();
+			}
+		}
+		}catch(NullPointerException e){
+			Toast.makeText(this.context,"Primero Agrega un Punto de Interes...!",Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -225,8 +253,6 @@ public class MainActivity extends FragmentActivity implements
         	MediaPlayer trap = MediaPlayer.create(this, R.raw.ackbar);
 			trap.start();
         }
-    }
-	
-	
+    }	
 
 }
