@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import oauth.signpost.OAuth;
 import twitter4j.TweetEntity;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -144,8 +145,9 @@ public class MainActivity extends FragmentActivity implements
 		try{
 		if(!this.drawerLayout.isDrawerOpen(this.mDrawerContent)){
 			//para enviar tweet
-			SharedPreferences preferencias = this.getSharedPreferences("TwitterPrefs", MODE_PRIVATE); 
-			if(preferencias != null){
+			SharedPreferences preferencias = this.getSharedPreferences("TwitterPrefs", MODE_PRIVATE);
+			Log.i("MaapTweet", preferencias.toString());
+			if(!preferencias.getString(OAuth.OAUTH_TOKEN, "").equals("") && !preferencias.getString(OAuth.OAUTH_TOKEN_SECRET, "").equals("")){
 				String maapLink = "http://maps.google.com/maps/?q="+posMarker.getPosition().latitude+","+posMarker.getPosition().longitude+"&z=17";
 				Log.i("MaappTweet", maapLink);
 				String tweet = "Te comparto mi punto de interes Actual: "+maapLink+" #MaapTweet";

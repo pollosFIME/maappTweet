@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="10"
+        android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 	<permission 
 	    android:name="com.example.maapp.permission.MAPS_RECEIVE"
@@ -32,9 +32,7 @@
         <!-- Splash screen -->
         <activity
             android:name="com.example.maapp.SplashScreen"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,9 +43,26 @@
         <!-- MAIN Activity -->
         <activity
             android:name="com.example.maapp.MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:launchMode="singleInstance">
             
-        </activity>        
+        </activity>
+	    <!--Settings Activity-->
+        <activity
+            android:name="com.example.maapp.SettingsActivity"
+            android:label="@string/app_name"
+             android:theme="@style/SettingsBaseTheme"
+             android:launchMode="singleInstance">
+            <meta-data
+        android:name="android.support.PARENT_ACTIVITY"
+        android:value="com.example.MainActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="mgl" android:host="mamor" />
+            </intent-filter>
+        </activity>   
             
         <meta-data
     	android:name="com.google.android.gms.version"
