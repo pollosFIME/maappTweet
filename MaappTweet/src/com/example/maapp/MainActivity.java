@@ -5,13 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import oauth.signpost.OAuth;
-import twitter4j.TweetEntity;
-import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.AccessToken;
-import twitter4j.auth.RequestToken;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,7 +16,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -35,21 +28,18 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 
 
 public class MainActivity extends FragmentActivity implements
@@ -152,15 +142,12 @@ public class MainActivity extends FragmentActivity implements
 				Log.i("MaappTweet", maapLink);
 				String tweet = "Te comparto mi punto de interes Actual: "+maapLink+" #MaapTweet";
 				
-				new MandaTuitTask(tweet, preferencias).execute();
-				MediaPlayer pio = MediaPlayer.create(this, R.raw.pollito);
-				pio.start();
-				Toast.makeText(this.context,"Tweet Enviado :D",
-	                    Toast.LENGTH_SHORT).show();
+				new MandaTuitTask(tweet, preferencias, this).execute();				
 			}else{
 				Toast.makeText(this.context,"Acceso a twitter NO conseguido! ve a Settings e Inicia Sesion",
 	                    Toast.LENGTH_SHORT).show();
 			}
+			
 		}
 		}catch(NullPointerException e){
 			Toast.makeText(this.context,"Primero Agrega un Punto de Interes...!",Toast.LENGTH_LONG).show();
@@ -223,21 +210,19 @@ public class MainActivity extends FragmentActivity implements
                   for(int i=0; i<fetchedAddress.getMaxAddressLineIndex(); i++) {
                         strAddress.append(fetchedAddress.getAddressLine(i)).append("\n");
                   }
-                  if(strAddress.toString() != ""){
+                  if(!strAddress.toString().equals("")){
                 	  posMarker.setTitle(getResources().getString(R.string.locMark));                  	
                 	  posMarker.setSnippet(strAddress.toString());
                 	  posMarker.showInfoWindow();
                   }else{
-                	  Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
+                	  Toast.makeText(getApplicationContext(),"Could not get address..! Direction String empty", Toast.LENGTH_LONG).show();
                       MediaPlayer trap = MediaPlayer.create(this, R.raw.ackbar);
           			  trap.start(); 
                   }
                
-              }
-               
-              else{
+              }else{
                   posMarker.setTitle(getResources().getString(R.string.noReverseGeo));
-                  Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
+                  Toast.makeText(getApplicationContext(),"Could not get address..! No direction", Toast.LENGTH_LONG).show();
                   MediaPlayer trap = MediaPlayer.create(this, R.raw.ackbar);
                   trap.start();
                   posMarker.showInfoWindow();
@@ -247,11 +232,11 @@ public class MainActivity extends FragmentActivity implements
         catch (IOException e) {
                  // TODO Auto-generated catch block
                  //e.printStackTrace();
-                 Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
+                 Toast.makeText(getApplicationContext(),"Could not get address..! IOException", Toast.LENGTH_LONG).show();
                  MediaPlayer trap = MediaPlayer.create(this, R.raw.ackbar);
      			trap.start();
         }catch (Exception e){
-        	Toast.makeText(getApplicationContext(),"Could not get address..!", Toast.LENGTH_LONG).show();
+        	Toast.makeText(getApplicationContext(),"Could not get address..! Exception", Toast.LENGTH_LONG).show();
         	MediaPlayer trap = MediaPlayer.create(this, R.raw.ackbar);
 			trap.start();
         }

@@ -5,11 +5,14 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.util.Log;
+import android.widget.Toast;
 
 public class TwitterUtils {
-	public static void mandaTuit( String tuit, SharedPreferences prefs ){
+	public static boolean mandaTuit( String tuit, SharedPreferences prefs){
 		 
         AccessToken a = getAccessToken( prefs );
         if( a!=null ){
@@ -19,11 +22,14 @@ public class TwitterUtils {
             try {
                 twitter.updateStatus(tuit);
                 Log.d("MGL", "+ twitter.getScreenName().toString()");
+				return true;
  
             } catch (TwitterException e) {
                 Log.e("MGL","TwitterExc: " + e.getMessage());
+                return false;
             }
         }
+		return false;
     }
  
     private static AccessToken getAccessToken( SharedPreferences prefs ){

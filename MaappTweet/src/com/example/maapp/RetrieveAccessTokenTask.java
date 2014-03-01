@@ -64,8 +64,8 @@ public class RetrieveAccessTokenTask extends AsyncTask<Uri, Void, Boolean> {
     protected void onPostExecute(Boolean result) {
     	   if(result){
     	    String tuit = "Autorizo el uso de  #MaappTweet";
-    	    new MandaTuitTask(tuit, prefs).execute();
-    	        Toast.makeText(this.context,"Acceso a twitter conseguido! Enviando el tuit",
+    	    //new MandaTuitTask(tuit, prefs, context).execute();
+    	        Toast.makeText(this.context,"Acceso a twitter conseguido!",
     	                    Toast.LENGTH_SHORT).show();
     	   }else{
     	        Toast.makeText(this.context,"Acceso a twitter NO conseguido! ",
