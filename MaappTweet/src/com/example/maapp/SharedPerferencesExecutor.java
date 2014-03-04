@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class SharedPerferencesExecutor<T> {
 	private Context context;
@@ -38,9 +39,12 @@ public class SharedPerferencesExecutor<T> {
 		SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
 		Gson gson = new Gson();
 		Map<String, ?> jsonS = appSharedPrefs.getAll();
+		
+		Log.i("MaappTweet SharedEx", jsonS.toString());
+		Log.i("MaappTweet ShaEx", clazz.getSimpleName());
 		for(Map.Entry<String,?> json : jsonS.entrySet()){
 			String[] keySplit = json.getKey().split("_");
-			if(keySplit[0].equals(clazz.getName())){
+			if(keySplit[0].equals(clazz.getSimpleName())){
 				arrliTs.add((T) gson.fromJson(json.getValue().toString(), clazz));
 			}
 		}

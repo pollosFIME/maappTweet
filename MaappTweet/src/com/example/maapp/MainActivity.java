@@ -1,14 +1,20 @@
 package com.example.maapp;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
 import oauth.signpost.OAuth;
 import twitter4j.TwitterException;
+import android.R.anim;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -16,6 +22,8 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,6 +40,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
@@ -54,7 +63,10 @@ public class MainActivity extends FragmentActivity implements
 	private LayoutInflater inflator;
 	private RelativeLayout mDrawerContent;
 	private RelativeLayout footerLay;
-		
+	private SharedPerferencesExecutor<PDI> shaEx;
+	private ArrayList<PDI> pdis;
+	private SharedPreferences appSharedPerfs;
+	private OnSharedPreferenceChangeListener listener;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,21 +82,27 @@ public class MainActivity extends FragmentActivity implements
 				.findFragmentById(R.id.map)).getMap();
 		
 		//Inicializamos nuestros componentes para el Navigation Drawer.
-		
 		this.mDrawerContent = (RelativeLayout) findViewById(R.id.relative_layout);
 		this.navList = (ListView) findViewById(R.id.left_drawer);
 		this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		this.footerLay = (RelativeLayout) findViewById(R.id.relayfooter);
 		
-		final String[] optionNames = getResources().getStringArray(R.array.nav_options);
-		ArrayAdapter<String> adapter  = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, optionNames);
-		context = this;
+		this.refreshNavList();
+		this.appSharedPerfs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+		listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+			  public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+			    // Implementation
+				  refreshNavList();
+			  }
+			};
+		appSharedPerfs.registerOnSharedPreferenceChangeListener(listener);
+			
 		inflator = (LayoutInflater) this.getSystemService(context.LAYOUT_INFLATER_SERVICE); 
 		View header = inflator.inflate(R.layout.listview_header, null);
-		navList.setAdapter(adapter);
+		//navList.setAdapter(adapter);
+		
 		mDrawerContent.addView(header);
 		header.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -98,12 +116,24 @@ public class MainActivity extends FragmentActivity implements
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Toast.makeText(MainActivity.this, optionNames[arg2], Toast.LENGTH_SHORT).show();
+				//Toast.makeText(MainActivity.this, optionNames[arg2], Toast.LENGTH_SHORT).show();
 				//Minirutina para obtener ubiacacion de la Lista.
 				/*posMarker.setPosition(new LatLng(obj[arg2].getLat(), obj[arg2].getLng());
 				posMarker.setSnippet(obj[arg2].getSnpt());	
 				gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(obj[arg2].getLat(), obj[arg2].getLng(), 8));
 				posMarker.showInfoWindow();*/
+				if (posMarker != null) {
+					posMarker.remove();
+				}
+				LatLng latLngItem = new LatLng(pdis.get(arg2).getLatitude(), pdis.get(arg2).getLongitude());
+				posMarker = gmap.addMarker(new MarkerOptions().position(latLngItem)
+						.anchor(0.5f, 0.5f));
+				posMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+				posMarker.setPosition(latLngItem);
+				gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngItem, 12));
+				posMarker.setTitle("Tweet Date:");
+				posMarker.setSnippet(pdis.get(arg2).getDate().toString());
+				posMarker.showInfoWindow();
 				drawerLayout.closeDrawers();	
 			}
 		});
@@ -136,12 +166,18 @@ public class MainActivity extends FragmentActivity implements
 		if(!this.drawerLayout.isDrawerOpen(this.mDrawerContent)){
 			//para enviar tweet
 			SharedPreferences preferencias = this.getSharedPreferences("TwitterPrefs", MODE_PRIVATE);
+			//SharedPreferences appSharedPerfs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+			Editor ed = this.appSharedPerfs.edit();
 			Log.i("MaapTweet", preferencias.toString());
 			if(!preferencias.getString(OAuth.OAUTH_TOKEN, "").equals("") && !preferencias.getString(OAuth.OAUTH_TOKEN_SECRET, "").equals("")){
 				String maapLink = "http://maps.google.com/maps/?q="+posMarker.getPosition().latitude+","+posMarker.getPosition().longitude+"&z=17";
 				Log.i("MaappTweet", maapLink);
 				String tweet = "Te comparto mi punto de interes Actual: "+maapLink+" #MaapTweet";
 				
+				//Guardamos la Latitud y longitud del Marker
+				ed.putString("markLat",""+posMarker.getPosition().latitude);
+				ed.putString("markLng", ""+posMarker.getPosition().longitude);
+				ed.commit();
 				new MandaTuitTask(tweet, preferencias, this).execute();				
 			}else{
 				Toast.makeText(this.context,"Acceso a twitter NO conseguido! ve a Settings e Inicia Sesion",
@@ -150,7 +186,7 @@ public class MainActivity extends FragmentActivity implements
 			
 		}
 		}catch(NullPointerException e){
-			Toast.makeText(this.context,"Primero Agrega un Punto de Interes...!",Toast.LENGTH_LONG).show();
+			Toast.makeText(this.context,"Primero Agrega un Punto de Interes...!"+e.getMessage(),Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -240,6 +276,28 @@ public class MainActivity extends FragmentActivity implements
         	MediaPlayer trap = MediaPlayer.create(this, R.raw.ackbar);
 			trap.start();
         }
-    }	
+    }
+	
+	public void refreshNavList(){
+		this.context = this;
+		shaEx = new SharedPerferencesExecutor<PDI>(context);
+		pdis = shaEx.retreiveAll(PDI.class);
+		
+		Collections.sort((List<PDI>)pdis, new Comparator<PDI>() {
+		    @Override
+		    public int compare(PDI r1, PDI r2) {
+		        return r2.getDate().compareTo(r1.getDate());
+		    }
+		}); 
+		ArrayList<String> datespdis = new ArrayList<String>();
+		for(PDI pdi : pdis){
+			datespdis.add(pdi.getDate().toString());
+		}
+		String[] arrSt = new String[datespdis.size()];
+		datespdis.toArray(arrSt);
+		Log.i("MaappTweet", pdis.toString());
+		ArrayAdapter<String> datesAdapter =  new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,arrSt);
+		navList.setAdapter(datesAdapter);
+	}
 
 }

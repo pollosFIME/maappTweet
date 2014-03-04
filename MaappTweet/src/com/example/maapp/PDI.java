@@ -1,28 +1,18 @@
 package com.example.maapp;
 
+import java.util.Date;
+
 public class PDI {
 	private String idPDI;
-	private String name;
-	private String description;
 	private double latitude;
 	private double longitude;
+	private Date date;
+	
 	public String getIdPDI() {
 		return idPDI;
 	}
 	public void setIdPDI(String idPDI) {
 		this.idPDI = idPDI;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
 	}
 	public double getLatitude() {
 		return latitude;
@@ -35,6 +25,12 @@ public class PDI {
 	}
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
 	
